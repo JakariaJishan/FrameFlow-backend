@@ -6,10 +6,12 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-User.create(name:"jack")
-User.create(name:"marcelo")
-User.create(name:"joe")
+user1 = User.create(username:"jack")
+User.create(username:"marcelo")
+User.create(username:"joe")
 
-Group.create(name:"Jishan")
+group1 = Group.create(name:"Jishan")
 Group.create(name:"Alarcon")
+
+Member.create(user_id: user1.id, group_id: group1.id)
 
