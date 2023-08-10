@@ -1,51 +1,51 @@
 class Api::V1::ResourcesController < ApplicationController
-  before_action :set_api_v1_resource, only: %i[ show update destroy ]
+  before_action :set_resource, only: %i[ show update destroy ]
 
   # GET /api/v1/resources
   def index
-    @api_v1_resources = Api::V1::Resource.all
+    @resources = Resource.all
 
-    render json: @api_v1_resources
+    render json: @resources
   end
 
   # GET /api/v1/resources/1
   def show
-    render json: @api_v1_resource
+    render json: @resource
   end
 
   # POST /api/v1/resources
   def create
-    @api_v1_resource = Api::V1::Resource.new(api_v1_resource_params)
+    @resource = Resource.new(resource_params)
 
-    if @api_v1_resource.save
-      render json: @api_v1_resource, status: :created, location: @api_v1_resource
+    if @resource.save
+      render json: @resource, status: :created, location: @resource
     else
-      render json: @api_v1_resource.errors, status: :unprocessable_entity
+      render json: @resource.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /api/v1/resources/1
   def update
-    if @api_v1_resource.update(api_v1_resource_params)
-      render json: @api_v1_resource
+    if @resource.update(resource_params)
+      render json: @resource
     else
-      render json: @api_v1_resource.errors, status: :unprocessable_entity
+      render json: @resource.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /api/v1/resources/1
   def destroy
-    @api_v1_resource.destroy
+    @resource.destroy
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_api_v1_resource
-      @api_v1_resource = Api::V1::Resource.find(params[:id])
+    def set_resource
+      @resource = Resource.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    def api_v1_resource_params
-      params.fetch(:api_v1_resource, {})
+    def resource_params
+      params.require(:resource).permit(:url, :type, :title)
     end
 end
