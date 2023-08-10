@@ -1,51 +1,51 @@
 class Api::V1::MembersController < ApplicationController
-  before_action :set_api_v1_member, only: %i[ show update destroy ]
+  before_action :set_member, only: %i[ show update destroy ]
 
   # GET /api/v1/members
   def index
-    @api_v1_members = Api::V1::Member.all
+    @members = Member.all
 
-    render json: @api_v1_members
+    render json: @members
   end
 
   # GET /api/v1/members/1
   def show
-    render json: @api_v1_member
+    render json: @member
   end
 
   # POST /api/v1/members
   def create
-    @api_v1_member = Api::V1::Member.new(api_v1_member_params)
+    @member = Member.new(member_params)
 
-    if @api_v1_member.save
-      render json: @api_v1_member, status: :created, location: @api_v1_member
+    if @member.save
+      render json: @member, status: :created, location: @member
     else
-      render json: @api_v1_member.errors, status: :unprocessable_entity
+      render json: @member.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /api/v1/members/1
   def update
-    if @api_v1_member.update(api_v1_member_params)
-      render json: @api_v1_member
+    if @member.update(member_params)
+      render json: @member
     else
-      render json: @api_v1_member.errors, status: :unprocessable_entity
+      render json: @member.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /api/v1/members/1
   def destroy
-    @api_v1_member.destroy
+    @member.destroy
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_api_v1_member
-      @api_v1_member = Api::V1::Member.find(params[:id])
+    def set_member
+      @member = Member.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    def api_v1_member_params
-      params.fetch(:api_v1_member, {})
+    def member_params
+      params.require(:member).permit(:user_id, :group_id)
     end
 end
